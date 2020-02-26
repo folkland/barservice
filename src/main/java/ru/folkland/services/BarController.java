@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 @RestController
 public class BarController {
 
@@ -12,14 +15,11 @@ public class BarController {
     private String bar;
 
     @Autowired
-    private WebUtils webUtils;
-
-    @Autowired
     private FooClient fooClient;
 
     @GetMapping("/hello")
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok(bar + " call foo and:" + fooClient.sayHello()+ "  server host " + webUtils.getIp());
+    public ResponseEntity<String> sayHello() throws UnknownHostException {
+        return ResponseEntity.ok(bar + " call foo and:" + fooClient.sayHello()+ "  server host " + InetAddress.getLocalHost().getHostAddress());
     }
 
     @GetMapping("/say/{some}")
